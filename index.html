@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Reembolso</title>
+    <link rel="stylesheet" href="assets/css/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <img src="assets/imgs/Logo.svg" alt="" />
+
+      <form action="#">
+        <fieldset>
+          <div class="titles">
+            <legend>Solicitação de reembolso</legend>
+            <span>
+              Informe os dados da despesa para solicitar reembolso. A despesa
+              será analisada e reembolsada em até 30 dias.
+            </span>
+          </div>
+
+          <div class="input-box">
+              <div class="input-wrapper">
+                <label for="expense" >título da despesa</label>
+                <input type="text" id="expense" required>
+              </div>
+
+              <div>
+                <div class="input-wrapper">
+                    <label for="category">categoria</label>
+                    <input type="text" required id="category">
+                </div>
+
+                <div class="input-wrapper">
+                    <label for="value">categoria</label>
+                    <input type="text" required id="value">
+                </div>
+              </div>
+          </div>
+
+          <button>
+            Adicionar despesa
+          </button>
+        </fieldset>
+
+        <fieldset>
+            <div>
+                <div class="requests">
+                    <p>
+                        Minhas solicitações
+                    </p>
+                    <small id="totalExpenses">
+                        6 despesas
+                    </small>
+                </div>
+                <div id="valueTotal" class="price">
+                    <small class="coin">R$</small>
+                    1.420,57
+                </div>
+            </div>
+
+            <ul role="list">
+                <li>
+                    <div>
+                        <div class="img">
+
+                        </div>
+                        <div>
+                            <span>Almoço</span>
+                            <small>Alimentação</small>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="price">
+                             <small class="coin">R$</small>
+                            34,78
+                        </div>
+
+                        <div class="img-close">
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </fieldset>
+      </form>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
