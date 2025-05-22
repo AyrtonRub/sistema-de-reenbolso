@@ -27,7 +27,8 @@ body {
     background-color: var(--gray-400) ;
     color: var(--gray-200);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+   
 }
 
 ul[role="list"] li {
@@ -36,5 +37,16 @@ ul[role="list"] li {
 
 .container {
     max-width: 80rem;
+    display: flex;
+    gap: 1.25rem;
     margin: auto;
+}
+
+ .logo {
+    width: 6.31581rem;
+    align-self: flex-start;
+  }
+
+fieldset {
+    border: none;
 }

@@ -14,8 +14,11 @@
   </head>
   <body>
     <div class="container">
-      <img src="assets/imgs/Logo.svg" alt="" />
+      <img src="assets/imgs/Logo.svg" alt="" class="logo" />
+    </div>
 
+    <div class="container">
+      
       <form action="#">
         <fieldset>
           <div class="titles">
@@ -28,19 +31,27 @@
 
           <div class="input-box">
               <div class="input-wrapper">
-                <label for="expense" >título da despesa</label>
                 <input type="text" id="expense" required>
+                <label for="expense" >título da despesa</label>
               </div>
 
               <div>
+                
                 <div class="input-wrapper">
-                    <label for="category">categoria</label>
-                    <input type="text" required id="category">
+                  <select name="category" id="category" required>
+                    <option value=""></option>
+                    <option value="food">Alimentação</option>
+                    <option value="hosting">Hospedagem</option>
+                    <option value="transport">Transporte</option>
+                    <option value="services">Serviços</option>
+                    <option value="others">Outros</option>
+                  </select>
+                  <label for="category">categoria</label>
                 </div>
 
                 <div class="input-wrapper">
-                    <label for="value">categoria</label>
-                    <input type="text" required id="value">
+                  <input type="text" required id="value">
+                  <label for="value">valor</label>
                 </div>
               </div>
           </div>
@@ -49,8 +60,9 @@
             Adicionar despesa
           </button>
         </fieldset>
+      </form>
 
-        <fieldset>
+      <div class="output">
             <div>
                 <div class="requests">
                     <p>
@@ -72,6 +84,7 @@
                         <div class="img">
 
                         </div>
+
                         <div>
                             <span>Almoço</span>
                             <small>Alimentação</small>
@@ -84,14 +97,13 @@
                             34,78
                         </div>
 
-                        <div class="img-close">
+                        <div id="img-close">
 
                         </div>
                     </div>
                 </li>
             </ul>
-        </fieldset>
-      </form>
+        </div>
     </div>
 
     <script src="assets/js/script.js"></script>
