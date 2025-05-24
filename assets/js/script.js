@@ -3,9 +3,11 @@
   const category = document.querySelector("#category");
   const price = document.querySelector("#value");
   const button = document.querySelector("button");
-  const valueTotal = document.querySelector('#valueTotal span')
-  const totalExpenses = document.querySelector('#totalExpenses')
+  const valueTotal = document.querySelector("#valueTotal span");
+  const totalExpenses = document.querySelector("#totalExpenses");
+  const output = document.querySelector("#output");
 
+  // Função para a criação de tag
   function createTag(tagName, className) {
     const element = document.createElement(tagName);
 
@@ -15,7 +17,12 @@
 
     return element;
   }
+  // Função para capitalizar o texto
+  function capitalizar(texto) {
+    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+  }
 
+  //Função para a criação da LI
   function createLi(expense, category, value, linkImg) {
     const li = createTag("li");
 
@@ -48,22 +55,17 @@
     const price = createTag("div", "price");
     divSecondary.appendChild(price);
 
-    const coin = createTag("small", "coin");
-    coin.textContent = "R$";
-    price.appendChild(coin);
-
     const priceValue = createTag("span");
     priceValue.textContent = value;
     price.appendChild(priceValue);
 
     const imgClose = createTag("div");
-    imgClose.setAttribute("id", "img-close");
+    imgClose.classList.add('img-close')
+    imgClose.setAttribute("data-close", "");
     divSecondary.appendChild(imgClose);
 
     return li;
   }
-
-  const output = document.querySelector("#output");
 
   // lista dos itens
   const listItems = [];
@@ -77,6 +79,7 @@
     others: "assets/imgs/bilhete.svg",
   };
 
+  // Classe para a criação do produto
   class Produto {
     constructor(expense, category, price) {
       (this.expense = expense),
@@ -85,7 +88,12 @@
     }
 
     isValid() {
-      return this.expense !== "" && this.category !== "" && this.price !== "";
+      return (
+        this.expense !== "" &&
+        this.category !== "" &&
+        this.price !== "" &&
+        !isNaN(this.price)
+      );
     }
 
     isObject() {
@@ -97,29 +105,31 @@
     }
   }
 
+  // Função para renderizar a LI na tela
   function renderLi() {
     output.textContent = "";
     listItems.forEach((obj) => {
       output.appendChild(
         createLi(
-          obj.name_produto,
+          capitalizar(obj.name_produto),
           obj.category,
-          obj.price,
-          linksImg[category.value]
+          obj.price.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }),
+          linksImg[obj.category]
         )
       );
     });
   }
 
+  // Função para adicionar o item na tela
   function clickButtton(e) {
     e.preventDefault();
     const typeCategory = category.options[category.selectedIndex];
-    const currencyPrice = price.value;
-    const produto = new Produto(
-      expense.value,
-      typeCategory.text,
-      currencyPrice
-    );
+    console.log(typeCategory.text)
+
+    const produto = new Produto(expense.value, typeCategory.value, price.value.replace(',', '.'));
 
     if (!produto.isValid()) {
       alert("Preencha os campos corretamente");
@@ -127,17 +137,45 @@
     }
 
     listItems.push(produto.isObject());
-    console.log(listItems)
-
-    let acumulador = 0
-
-    listItems.forEach(obj => acumulador = acumulador += obj.price)
-    valueTotal.textContent = acumulador.toFixed(2).replace('.', ',')
-    totalExpenses.textContent = `${listItems.length} despesas`
-   
 
     renderLi();
+    updateValues()
+
+    expense.value = "";
+    category.value = "";
+    price.value = "";
+  }
+
+  function updateValues() {
+    let acumulador = 0;
+
+    listItems.forEach((obj) => (acumulador = acumulador += obj.price));
+    valueTotal.textContent = acumulador.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+
+    totalExpenses.textContent = `${listItems.length} despesas`;
+  }
+
+  function clickUl(e) {
+    const element = e.target;
+    const lis = document.querySelectorAll("#output li");
+    let currentLi = element.parentElement;
+
+    while (currentLi && currentLi.nodeName !== "LI") {
+      currentLi = currentLi.parentElement;
+    }
+    const index = [...lis].indexOf(currentLi);
+
+    if (element.hasAttribute("data-close")) {
+      listItems.splice(index, 1);
+    }
+
+    renderLi();
+    updateValues()
   }
 
   button.addEventListener("click", clickButtton);
+  output.addEventListener("click", clickUl);
 })();

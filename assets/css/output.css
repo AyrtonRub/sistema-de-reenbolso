@@ -56,7 +56,7 @@
             height: 2.5rem;
             background-color: var(--gray-400);
             border-radius: 50%;
-            background-image: url(../imgs/talheres.svg);
+            /* background-image: url(../imgs/talheres.svg); */
             background-position: center;
             background-repeat: no-repeat;
             background-size: 1.125rem;
@@ -93,7 +93,7 @@
             }
           }
 
-          & #img-close {
+          & .img-close {
             width: 2.5rem;
             height: 2.5rem;
             background: url(../imgs/close.svg) no-repeat center/.75rem;
