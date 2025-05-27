@@ -7,6 +7,20 @@
   const totalExpenses = document.querySelector("#totalExpenses");
   const output = document.querySelector("#output");
 
+  price.oninput = function() {
+    let value = this.value.replace(/\D/g, "")
+    
+    value = Number(value) / 100
+    this.value = formatCurrancyBRL(value)
+  }
+
+  function formatCurrancyBRL(value) {
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+  }
+
   // Função para a criação de tag
   function createTag(tagName, className) {
     const element = document.createElement(tagName);
@@ -56,7 +70,9 @@
     divSecondary.appendChild(price);
 
     const priceValue = createTag("span");
-    priceValue.textContent = value;
+    priceValue.innerHTML = `
+      <small class="coin">R$</small> ${value}
+    `;
     price.appendChild(priceValue);
 
     const imgClose = createTag("div");
@@ -81,10 +97,11 @@
 
   // Classe para a criação do produto
   class Produto {
-    constructor(expense, category, price) {
+    constructor(expense, category, price, idCategoria) {
       (this.expense = expense),
         (this.category = category),
         (this.price = price);
+        (this.idCategoria = idCategoria)
     }
 
     isValid() {
@@ -100,7 +117,9 @@
       return {
         name_produto: this.expense,
         category: this.category,
-        price: parseFloat(this.price),
+        price: this.price ,
+        create: new Date(),
+        id_category: this.idCategoria
       };
     }
   }
@@ -113,11 +132,8 @@
         createLi(
           capitalizar(obj.name_produto),
           obj.category,
-          obj.price.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          }),
-          linksImg[obj.category]
+          formatCurrancyBRL(obj.price).replace('R$', ''),
+          linksImg[obj.id_category]
         )
       );
     });
@@ -126,10 +142,16 @@
   // Função para adicionar o item na tela
   function clickButtton(e) {
     e.preventDefault();
-    const typeCategory = category.options[category.selectedIndex];
-    console.log(typeCategory.text)
+    const typeCategory = category.options[category.selectedIndex].text;
+    const cleanValue = parseFloat(
+      price.value
+      .replace(/\s/g, "")
+      .replace('R$', '')
+      .replace(/\./g, '')
+      .replace(',', '.')
+    )
 
-    const produto = new Produto(expense.value, typeCategory.value, price.value.replace(',', '.'));
+    const produto = new Produto(expense.value, typeCategory, cleanValue, category.value);
 
     if (!produto.isValid()) {
       alert("Preencha os campos corretamente");
@@ -137,7 +159,7 @@
     }
 
     listItems.push(produto.isObject());
-
+    console.log(listItems)
     renderLi();
     updateValues()
 
@@ -150,10 +172,7 @@
     let acumulador = 0;
 
     listItems.forEach((obj) => (acumulador = acumulador += obj.price));
-    valueTotal.textContent = acumulador.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
+    valueTotal.textContent = formatCurrancyBRL(acumulador).replace('R$', '')
 
     totalExpenses.textContent = `${listItems.length} despesas`;
   }
